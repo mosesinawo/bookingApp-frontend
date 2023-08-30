@@ -8,7 +8,13 @@
 .lContainer {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   gap: 10px;
+  background-color: var(--color-primary);
+  border-radius: 10px;
+  width: 70%;
+  padding: 20px;
 }
 
 .lInput{

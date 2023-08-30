@@ -5,73 +5,113 @@ import "./login.css";
 import { login, useLoginUserMutation } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import SmallLoader from "../../components/loaders/smallLoader";
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import * as Yup from 'yup';
 
 const Login = () => {
-  const [credentials, setCredentials] = useState({
-    username: undefined,
-    password: undefined,
+  const [credentials, setCredentials] = useState({});
+
+  const initialValues = {
+    email: "",
+    password: "",
+  };
+
+  const SignUpSchema = Yup.object().shape({
+    email: Yup.string().email().required("Email is required"),
+
+    password: Yup.string()
+      .required("Password is required")
+      .min(6, "Password is too short - should be 6 chars minimum"),
   });
   const [res, setRes] = useState({
-    data:[],
+    data: [],
     isLoading: false,
     error: false
   })
   const dispatch = useDispatch()
 
-  const [loginUser,{
+  const [loginUser, {
     data,
     isLoading,
     isSuccess,
     isError,
     error
-  }] = useLoginUserMutation('user')
-  console.log(data)
+  }] = useLoginUserMutation()
 
   const navigate = useNavigate()
+  const handleSubmit = async (e) => {
+    // e.preventDefault()
+    await loginUser(credentials)
+    console.log(credentials)
+    //  formik.resetForm()
+  }
 
-  const handleChange = (e) => {
-    setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-useEffect(() => {
- 
-}, [])
+  const formik = useFormik({
+    initialValues,
+    validationSchema: SignUpSchema,
+    onSubmit: (values) => {
+      handleSubmit()
+      setCredentials(values)
+      console.log(values)
+    }
 
-  const handleClick = async (e) => {
-    e.preventDefault();
-   await loginUser(credentials)
-  };
+  })
+
+
+
   useEffect(() => {
-   if(data !== undefined){
-    dispatch(login(data.details))
-    navigate("/")
+    if (data !== undefined) {
+      dispatch(login(data.details))
+      navigate("/")
 
-   }
+    }
   }, [data])
-  
+
+ 
 
 
   return (
     <div className="login">
-      <div className="lContainer">
-        <input
-          type="text"
-          placeholder="username"
-          id="username"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <button  onClick={handleClick} className="lButton">
-          {isLoading ? <SmallLoader width={20}/> : "Login"}
+      <form className="lContainer"
+        onSubmit={formik.handleSubmit}>
+        <h1>Login</h1>
+        <div className="form-row">
+          <label htmlFor="email">Email</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={formik.errors.email && formik.touched.email ?
+              "input-error" : "register-input"}
+          />
+          {formik.errors.email && formik.touched.email && (
+            <span className="error">{formik.errors.email}</span>
+          )}
+        </div>
+        <div className="form-row">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={formik.errors.password && formik.touched.password ?
+              "input-error" : "register-input"}
+          />
+          {formik.errors.password && formik.touched.password && (
+            <span className="error">{formik.errors.password}</span>
+          )}
+        </div>
+        <button type="submit" className="lButton">
+          {isLoading ? <SmallLoader width={20} /> : "Login"}
         </button>
         {error && <span>{error.message}</span>}
-      </div>
+      </form>
     </div>
   );
 };

@@ -19,6 +19,17 @@ export const authApi = createApi({
       },
       invalidatesTags:['Auth']
     }),
+    registerUser: builder.mutation({
+      query(data) {
+        return {
+          url: `/auth/register`,
+          method: 'POST',
+          body: data,
+        }
+      },
+      invalidatesTags:['Auth']
+    }),
+    
   }),
 })
 
@@ -48,4 +59,4 @@ export default authSlice.reducer
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useLoginUserMutation } = authApi
+export const { useLoginUserMutation, useRegisterUserMutation } = authApi
