@@ -35,7 +35,7 @@ console.log(data)
       </div>
       <div className="featuredItem">
         <img
-          src="https://cf.bstatic.com/xdata/images/city/600x600/976952.jpg?k=4c536b3833e5f6721ff5f89fa4f15d8f50fd5cd4a963060414078428aa67a6d5&o="
+          src="https://images.pexels.com/photos/53464/sheraton-palace-hotel-lobby-architecture-san-francisco-53464.jpeg?auto=compress&cs=tinysrgb&w=800"
           alt=""
           className="featuredImg"
         />
