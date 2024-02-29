@@ -40,7 +40,7 @@ const FeaturedProperties = () => {
   return (
     <div className="fp">
       <Slider {...Settings}>
-        {renderShow }
+        {renderShow}
       </Slider>
     </div>
   );

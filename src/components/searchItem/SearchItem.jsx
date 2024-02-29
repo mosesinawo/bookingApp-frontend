@@ -3,10 +3,11 @@ import "./searchItem.css";
 import { backendUrl } from "../../config/__urls";
 
 const SearchItem = ({ item }) => {
+  console.log(item)
   return (
     <div className="searchItem">
       <img
-        src=""
+        src={item?.photos[0]}
         alt=""
         className="siImg"
       />

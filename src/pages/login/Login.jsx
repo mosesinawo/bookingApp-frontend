@@ -21,7 +21,7 @@ const Login = () => {
 
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Password is too short - should be 6 chars minimum"),
+      .min(3, "Password is too short - should be 3 chars minimum"),
   });
   const [res, setRes] = useState({
     data: [],

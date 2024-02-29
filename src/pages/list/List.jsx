@@ -21,7 +21,7 @@ const List = () => {
   const [max, setMax] = useState(undefined);
 
   const { data, loading, error, reFetch } = useFetch(
-    `${backendUrl}/hotels?city=${destination}&min=${min || 0}&max=${max || 1000}`)
+    `${backendUrl}/hotels?city=${destination}&min=${min || 0}&max=${max || 999999999}`)
 
   const handleSearch = () => {
     reFetch()
